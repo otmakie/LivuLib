@@ -1,0 +1,73 @@
+Project:
+------------
+Livu is a iPhone application that streams live video to any server that supports RTMP publishing of H.264 streams. This product uses FFmpeg as a H.264 stream parser and RTMP packager (paketizer) via librtmp. This product is written by Steve McFarlin. If you have any issues with this distribution and/or I am in violation of the LGPL or any copy writes please contact me at legal@stevemcfarlin.com. 
+
+Copyright:
+-----------
+
+Livu uses LGPLed software from the FFmpeg and librtmp project.
+
+FFmpeg is free software licensed under the GNU Lesser General Public License (LGPL), version 2.1 or later.
+
+FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.
+
+Original Source code for FFmpeg can be found on the FFmpeg web site (http://www.ffmpeg.org).
+
+librtmp is a free software licensed under the GNU Lesser General Public License version 2.1.
+
+librtmp is Copyright (C) 2009 Andrej Stepanchuk, (C) 2010 Howard Chu 
+
+ffstream.a and any included sources are Copyright (C) 2011 Steve McFarlin. They are licensed under the MIT license.
+
+This source package contains full copy of sourced code of FFmpeg, which is used by Livu to create its ffstream.a. Please check each directory for additional information. It also contains the full source and an xCode project to build librtmp. 
+
+NOTE: At the current time I am only distributing the ffstream.o and ffstream.h file. This is in accordance with the LGPL. I will release the ffstream.m at a future time.
+
+
+Patch Notes:
+-----------
+
+librtmp has been patched to allow adobe authentication. The patch is located in the root rtmp directory. The patch has been fixed in the source. I have not differ it yet. I have also added code to the log.h/c to add custom logging. RTMPSockBuf_Send has been modified to use select. On the iPhone write(..) can end up blocking forever. Sending a SIGPIPE may or may not unblock it. Besides I want to know when write blocks for more then N seconds.
+
+I encountered several issues with mov.c. During my investigation of the elst issue I have modified ffmpeg/libavformat/mov.c and ffmpeg/libavformat/util.c. The modifications were simply to add debug output statements. I have not made any structural or functional modification to the code.
+
+FFmpeg is for the most part left alone. IF you diff it you will find differences, but they are mostly trivial. Swapping out a current release of FFmpeg would not break ffstream.
+
+Pre-Build
+---------
+
+UPDATE: Most of the below is true. However, I only target 3GS hardware or better (aka arm7), so I only use the arm7 build script. Due to this the other build scripts may not work.
+
+You must edit the rtmp/librtmp.pc file to point to the full path the rtmp directory.
+
+Make sure you export the rtmp directory to PKG_CONFG_PATH before building ffmpeg. e.g. export PKG_CONFIG_PATH=/home/me/projects/rtmp
+
+You must have the gas preprocessor installed. This is included in the ffmpeg directory. https://github.com/yuvi/gas-preprocessor
+
+Library links may need to be added to each xCode project. 
+
+librtmp.a (from the rtmp xCode output)
+libavcodec.a
+libavcore.a
+libavdevice.a
+libavfilter.a
+libavformat.a
+libavutil.a
+libswscale.a
+
+Some of these libraries are not needed or used. At the time of release I have yet to optimize the FFmpeg build. As we do this we will update our package distribution to reflect these changes.
+
+Build Steps
+-----------
+
+1. Open up the rtmp xCode project. Build.
+2. Copy the librtmp.a file to ./rtmp/lib
+2. run ffmpeg/build_universal.sh (I currently only use the arm7 build, other scripts are most likely broken)
+3. Open up ffstream. Build
+
+The output will be ffstream.a
+
+
+Notes
+-------------
+
