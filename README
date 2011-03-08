@@ -21,17 +21,17 @@ ffstream.a and any included sources are Copyright (C) 2011 Steve McFarlin. They 
 
 This source package contains full copy of sourced code of FFmpeg, which is used by Livu to create its ffstream.a. Please check each directory for additional information. It also contains the full source and an xCode project to build librtmp. 
 
-NOTE: At the current time I am only distributing the ffstream.o and ffstream.h file. This is in accordance with the LGPL. I will release the ffstream.m at a future time.
+NOTE: At the current time I am only distributing the ffstream.o and ffstream.h file. This is in accordance with the LGPL. I will release the ffstream.m file once I have cleaned it up.
 
 
 Patch Notes:
 -----------
 
-librtmp has been patched to allow adobe authentication. The patch is located in the root rtmp directory. The patch has been fixed in the source. I have not differ it yet. I have also added code to the log.h/c to add custom logging. RTMPSockBuf_Send has been modified to use select. On the iPhone write(..) can end up blocking forever. Sending a SIGPIPE may or may not unblock it. Besides I want to know when write blocks for more then N seconds.
+librtmp has been patched to allow adobe authentication. The patch is located in the root rtmp directory. The patch has been fixed in the source. I have also added code to the log.h/c to add custom logging. RTMPSockBuf_Send has been modified to use select on the socket. I want to know when send blocks for more then N seconds.
 
 I encountered several issues with mov.c. During my investigation of the elst issue I have modified ffmpeg/libavformat/mov.c and ffmpeg/libavformat/util.c. The modifications were simply to add debug output statements. I have not made any structural or functional modification to the code.
 
-FFmpeg is for the most part left alone. IF you diff it you will find differences, but they are mostly trivial. Swapping out a current release of FFmpeg would not break ffstream.
+FFmpeg is for the most part left alone. IF you diff it you will find differences, but they are mostly trivial. Technically you should be able to update FFmpeg and it should work.
 
 Pre-Build
 ---------
