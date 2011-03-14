@@ -62,8 +62,10 @@ Build Steps
 
 1. Open up the rtmp xCode project. Build.
 2. Copy the librtmp.a file to ./rtmp/lib
-2. run ffmpeg/build_universal.sh (I currently only use the arm7 build, other scripts are most likely broken)
-3. Open up ffstream. Build
+3. run ffmpeg/build_universal.sh (I currently only use the arm7 build, other scripts are most likely broken)
+4. Open up ffstream. Build
+
+Any XCode project will need to be setup for your system. Paths will most likely need to be change. FFstream will need to be setup to link the object libraries provided.
 
 The output will be ffstream.a
 
